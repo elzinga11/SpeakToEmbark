@@ -6,7 +6,6 @@ import {FormControl} from '@angular/forms'
 
 declare const annyang: any;
 
-
 @Injectable({
     providedIn: 'root'
   })
