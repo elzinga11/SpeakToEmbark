@@ -61,13 +61,10 @@ export class CheckSentence{
         var bestFit = 0;
         var lastCharacterUser = 0; 
         var newWordUser ='';
-        console.log(userSentence, 10);
         for (let character2 of userSentence){
             lastCharacterUser +=1;
             if(character2 !== ' '){
                     newWordUser = newWordUser.concat(character2);
-                    console.log(newWordCorrect, 'correct');
-                    console.log(newWordUser, 'User');
 
                     if(lastCharacterUser === userSentence.length){
                         bestFit = Math.max(bestFit, ((newWordCorrect.length - this.levenshtein(newWordCorrect,newWordUser))/newWordCorrect.length));

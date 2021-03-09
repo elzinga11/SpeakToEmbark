@@ -19,7 +19,7 @@
 <hr>
 
 <div *ngIf="voiceActiveSectionDisabled; else voicesection;">
-  <button type="button" (click)="startVoiceRecognition()">Record</button>
+  <button type="button" (click)="onStartVoiceRecognition()">Record</button>
 </div>
 <ng-template #voicesection>
   <ng-container *ngIf="!voiceActiveSectionError; else failure">
@@ -40,8 +40,8 @@
     <span>Didn't catch that</span>
   </ng-template>
   <div>
-    <button (click)="closeVoiceRecognition()">Close</button>
-    <button (click)="startVoiceRecognition()">Restart</button>
+    <button (click)="onCloseVoiceRecognition()">Close</button>
+    <button (click)="onStartVoiceRecognition()">Restart</button>
   </div>
 </ng-template>
 
@@ -54,9 +54,6 @@
 <button id="translatebtn" (click)="send()">Translate</button>
 
 
- <div class ="row">
-  <app-roleplay></app-roleplay>
-</div>
 
 <hr> 
 <button (click) = "onCheckScore('nice to meet you, my name is Fabrizio Alegre. Where are you from?',voiceText)">Check Score</button>
@@ -67,3 +64,10 @@
 <button (click) = "onCheckScore('hola',voiceText)">Check Score</button>
 <div>hola</div>
 <div>{{score}}</div>
+
+<hr>
+
+
+<div class ="row">
+  <app-paragraph></app-paragraph>
+</div>

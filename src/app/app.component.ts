@@ -4,6 +4,7 @@ import {Solution, GoogleObj} from './models/solution';
 import {GoogletranslateService} from './services/googletranslate.service';
 import {Form, FormControl} from '@angular/forms';
 import {CheckSentence} from './services/checksentence.service';
+import { RecordAudio } from './services/recordaudio.service';
 
 declare const annyang: any;
 
@@ -19,80 +20,20 @@ export class AppComponent {
 	voiceActiveSectionListening: boolean = false;
 	voiceText: any;
 	langFrom = new FormControl('en');
-  constructor(private checkSentence: CheckSentence, private ngZone: NgZone, private solution: SolutionService,private google: GoogletranslateService){}
+  score = 0;
 
-	initializeVoiceRecognitionCallback(): void {
-		annyang.addCallback('error', (err) => {
-      if(err.error === 'network'){
-        this.voiceText = "Internet is require";
-        annyang.abort();
-        this.ngZone.run(() => this.voiceActiveSectionSuccess = true);
-      } else if (this.voiceText === undefined) {
-				this.ngZone.run(() => this.voiceActiveSectionError = true);
-				annyang.abort();
-			}
-		});
+  constructor(private recordAudio: RecordAudio, private checkSentence: CheckSentence, private ngZone: NgZone, private solution: SolutionService,private google: GoogletranslateService){}
 
-		annyang.addCallback('soundstart', (res) => {
-      this.ngZone.run(() => this.voiceActiveSectionListening = true);
-		});
+  //Start and stop recording
+  onStartVoiceRecognition(){
+    this.recordAudio.startVoiceRecognition();
+  }
 
-		annyang.addCallback('end', () => {
-      if (this.voiceText === undefined) {
-        this.ngZone.run(() => this.voiceActiveSectionError = true);
-				annyang.abort();
-			}
-		});
-
-		annyang.addCallback('result', (userSaid) => {
-			this.ngZone.run(() => this.voiceActiveSectionError = false);
-
-			let queryText: any = userSaid[0];
-
-			annyang.abort();
-
-      this.voiceText = queryText;
-
-			this.ngZone.run(() => this.voiceActiveSectionListening = false);
-      this.ngZone.run(() => this.voiceActiveSectionSuccess = true);
-		});
-	}
-
-	startVoiceRecognition(): void {
-    this.voiceActiveSectionDisabled = false;
-		this.voiceActiveSectionError = false;
-		this.voiceActiveSectionSuccess = false;
-    this.voiceText = undefined;
-
-		if (annyang) {
-			let commands = {
-
-				'demo-annyang': () => { }
-			};
-
-			annyang.addCommands(commands);
-			annyang.setLanguage(this.langFrom);
-      this.initializeVoiceRecognitionCallback();
-
-			annyang.start({ autoRestart: false });
-		}
-	}
-
-	closeVoiceRecognition(): void {
-    this.voiceActiveSectionDisabled = true;
-		this.voiceActiveSectionError = false;
-		this.voiceActiveSectionSuccess = false;
-		this.voiceActiveSectionListening = false;
-		this.voiceText = undefined;
-
-		if(annyang){
-      annyang.abort();
-    }
-	}
-
+  onCloseVoiceRecognition(){
+    this.recordAudio.closeVoiceRecognition();
+  }
 
 //Check if user has said the sentence correctly, if so move to next senentce
-
 
 //Google API, move to better location later
 langTo = new FormControl('en');
@@ -102,7 +43,7 @@ langTo = new FormControl('en');
     detail: ''
   };
 
-score = 0;
+
 onCheckScore(a, b){
   this.score = this.checkSentence.checkPercent(a, b);
   console.log(this.data.title)
@@ -110,10 +51,35 @@ onCheckScore(a, b){
 }
   private translateBtn: any;
 
-
   ngOnInit() {
     this.solution.getSolution().subscribe(res => this.data = res);
     this.translateBtn = document.getElementById('translatebtn');
+      this.recordAudio.voiceActiveSectionDisabledChanged.subscribe(
+        (change: boolean) => this.voiceActiveSectionDisabled = change
+      );
+      
+      this.recordAudio.voiceActiveSectionSuccessChanged.subscribe(
+        (change: boolean) => this.voiceActiveSectionSuccess = change
+      );
+      
+      this.recordAudio.voiceActiveSectionErrorChanged.subscribe(
+        (change: boolean) => this.voiceActiveSectionError = change
+      );
+      
+      this.recordAudio.voiceActiveSectionListeningChanged.subscribe(
+        (change: boolean) => this.voiceActiveSectionListening = change
+      );
+  
+      this.recordAudio.voiceTextChanged.subscribe(
+        (change: any) => this.voiceText = change
+      );
+  
+      this.voiceActiveSectionDisabled = this.recordAudio.voiceActiveSectionDisabled;
+      this.voiceActiveSectionError = this.recordAudio.voiceActiveSectionError;
+      this.voiceActiveSectionSuccess = this.recordAudio.voiceActiveSectionSuccess;
+      this.voiceActiveSectionListening = this.voiceActiveSectionListening;
+      this.voiceText = this.recordAudio.voiceText;
+    
   }
 
    send() {
