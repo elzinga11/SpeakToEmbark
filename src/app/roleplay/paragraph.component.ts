@@ -1,7 +1,8 @@
 import { getTranslationDeclStmts } from '@angular/compiler/src/render3/view/template';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { CheckSentence } from '../services/checksentence.service';
 import { RecordAudio } from '../services/recordaudio.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-paragraph',
@@ -17,12 +18,16 @@ export class RoleplayComponent implements OnInit {
 	voiceText: any;
   voiceTextReady: boolean = false;
   currentSentence: string = '';
+  sentenceCounter: number = 0;
+  score: number = 0;
+  conversationSentence: string = '';
+  langFrom = new FormControl('en');
 
   constructor(private recordAudio: RecordAudio, private checkSentence: CheckSentence) { }
 
   //Note that these practice paragraphs in spanish do not have accent marks or double question marks
-  practiceParagraphBrown = ['Buenos dias, soy su nuevo vecino. Me llamo Bejamin Brown.',
-                            'Soy de California, en los Estados Unidos. Este barrio es muy bonito. Cuanto timepo ha vivido aqui?', 
+  practiceParagraphBrown = ['Buenos dias, soy su nuevo vecino.',
+                            'Soy de California, en los Estados Unidos. Este barrio es muy bonito. Cuanto tiempo lleva aqui?', 
                             'Como se llama su esposa?', 
                             'Tienen hijos?',
                             'Mi esposa y yo tenemos dos hijos, pero no viven con nostoros ahora; estan en los Estados Unidos.',
@@ -36,11 +41,14 @@ export class RoleplayComponent implements OnInit {
                               'Si. Uno de mis amigos es miembro de esa iglesia.',
                               'No mucho, mi amigo habla poco de religion.'
                             ];
+
+  practiceParagraphEnglish = ['Hey how are you?', 'My name is Steven!', 'Do you live around here?']                          
   testWord1 = 'hows are your?';
   testWord2 = 'how are you?'; 
   num = this.checkSentence.checkPercent(this.testWord1,this.testWord2);
   
   ngOnInit(): void {
+    console.log(this.langFrom);
     this.recordAudio.voiceActiveSectionDisabledChanged.subscribe(
       (change: boolean) => this.voiceActiveSectionDisabled = change
     );
@@ -73,15 +81,24 @@ export class RoleplayComponent implements OnInit {
   }
   
   onStartVoiceRecognition(){
+    this.recordAudio.setLanguage(this.langFrom.value);
     this.recordAudio.startVoiceRecognition();
   }
 
   onCloseVoiceRecognition(){
+    this.recordAudio.setLanguage(this.langFrom.value);
     this.recordAudio.closeVoiceRecognition();
   }
 
   onStart(){
-    var i = 0;
-    this.currentSentence = this.practiceParagraphBrown[0];
+    this.currentSentence = this.practiceParagraphBrown[this.sentenceCounter];
+  }
+  onCheck(){
+    this.score = this.checkSentence.checkPercent(this.currentSentence,this.voiceText);
+    if(this.score > .8){
+      this.sentenceCounter +=1;
+      this.conversationSentence = this.practiceParagraphNeighbor[this.sentenceCounter-1];
+      this.currentSentence = this.practiceParagraphBrown[this.sentenceCounter];
+    }
   }
 }

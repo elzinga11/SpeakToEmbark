@@ -30,7 +30,22 @@
   <div class = "container">
      <button (click) = "onStart()">Start Practice
      </button>
+     <button (click) = "onCheck()">Check
+    </button>
      <p>{{currentSentence}}</p>
+     <p>{{score}}</p>
   </div>
   
+  <hr>
+{{conversationSentence}}
   
+<hr>
+
+<label for="langFrom" style ="padding-left: 15px">Choose Language To Translate From: </label> 
+<select id="langFrom" [formControl]="langFrom">
+  <option value="en" selected>English</option>
+  <option value="es">Spanish</option>
+  <option value="de">German </option>
+  <option value="ar">Arabic</option>
+  <option value="ja">Japanese</option>
+</select>

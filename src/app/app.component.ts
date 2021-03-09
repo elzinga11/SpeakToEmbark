@@ -26,10 +26,12 @@ export class AppComponent {
 
   //Start and stop recording
   onStartVoiceRecognition(){
+    this.recordAudio.setLanguage(this.langFrom.value);
     this.recordAudio.startVoiceRecognition();
   }
 
   onCloseVoiceRecognition(){
+    this.recordAudio.setLanguage(this.langFrom.value);
     this.recordAudio.closeVoiceRecognition();
   }
 

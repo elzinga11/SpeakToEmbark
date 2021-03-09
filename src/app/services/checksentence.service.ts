@@ -31,6 +31,9 @@ export class CheckSentence{
         this.sum = 0;
         userSentence = userSentence.toLowerCase();
         correctSentence = correctSentence.toLowerCase();
+        userSentence = userSentence.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        correctSentence = correctSentence.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        
           for (let character of correctSentence){
             lastCharacter +=1; 
             if(character !== ' '){

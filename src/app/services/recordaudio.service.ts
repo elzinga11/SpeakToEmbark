@@ -17,6 +17,7 @@ export class RecordAudio{
 	voiceActiveSectionListening: boolean = false;
 	voiceText: any;
     voiceTextReady: boolean = false;
+    language: string = 'en';
 
     voiceActiveSectionDisabledChanged = new EventEmitter<boolean>();
 	voiceActiveSectionErrorChanged = new EventEmitter<boolean>();
@@ -97,7 +98,7 @@ export class RecordAudio{
 			};
 
 			annyang.addCommands(commands);
-			annyang.setLanguage(this.langFrom);
+			annyang.setLanguage(this.language);
       this.initializeVoiceRecognitionCallback();
 
 			annyang.start({ autoRestart: false });
@@ -121,4 +122,7 @@ export class RecordAudio{
       annyang.abort();
     }
 	}
+    setLanguage(newLanguage: string){
+        this.language = newLanguage;
+    }
 }
