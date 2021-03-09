@@ -52,3 +52,18 @@
 
 
 <button id="translatebtn" (click)="send()">Translate</button>
+
+
+ <div class ="row">
+  <app-roleplay></app-roleplay>
+</div>
+
+<hr> 
+<button (click) = "onCheckScore('nice to meet you, my name is Fabrizio Alegre. Where are you from?',voiceText)">Check Score</button>
+<div>nice to meet you, my name is Fabrizio Alegre. Where are you from?</div>
+<div>{{score}}</div>
+
+<hr> 
+<button (click) = "onCheckScore('hola',voiceText)">Check Score</button>
+<div>hola</div>
+<div>{{score}}</div>

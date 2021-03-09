@@ -2,7 +2,8 @@ import { Component, NgZone } from '@angular/core';
 import {SolutionService} from './services/solution.service';
 import {Solution, GoogleObj} from './models/solution';
 import {GoogletranslateService} from './services/googletranslate.service';
-import {Form, FormControl} from '@angular/forms'
+import {Form, FormControl} from '@angular/forms';
+import {CheckSentence} from './services/checksentence.service';
 
 declare const annyang: any;
 
@@ -18,7 +19,7 @@ export class AppComponent {
 	voiceActiveSectionListening: boolean = false;
 	voiceText: any;
 	langFrom = new FormControl('en');
-  constructor(private ngZone: NgZone, private solution: SolutionService,private google: GoogletranslateService){}
+  constructor(private checkSentence: CheckSentence, private ngZone: NgZone, private solution: SolutionService,private google: GoogletranslateService){}
 
 	initializeVoiceRecognitionCallback(): void {
 		annyang.addCallback('error', (err) => {
@@ -90,6 +91,8 @@ export class AppComponent {
 	}
 
 
+//Check if user has said the sentence correctly, if so move to next senentce
+
 
 //Google API, move to better location later
 langTo = new FormControl('en');
@@ -99,6 +102,12 @@ langTo = new FormControl('en');
     detail: ''
   };
 
+score = 0;
+onCheckScore(a, b){
+  this.score = this.checkSentence.checkPercent(a, b);
+  console.log(this.data.title)
+
+}
   private translateBtn: any;
 
 
@@ -119,7 +128,8 @@ langTo = new FormControl('en');
       (res: any) => {
         this.translateBtn.disabled = false;
         this.data = {
-          title: res.data.translations[0].translatedText,
+          title: res.data.translations[0].translatedText.replace(/&#39;/g, "'"),
+          // title: res.data.translations[0].translatedText,
         	description: res.data.translations[1].translatedText,
         	detail: res.data.translations[2].translatedText
         };
