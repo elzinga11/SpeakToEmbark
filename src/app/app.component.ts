@@ -119,7 +119,7 @@ onCheckScore(a, b){
   playAudio(){
     let audio = new Audio();
     audio.src = "../assets/soundFile/Me llamo Benjamin Brown.mp3";
-    // C:\Users\syabutan\Documents\GitHub\SpeakToEmbark\src\assets\soundFile\Me llamo Benjamin Brown.mp3
+
     audio.load();
     audio.play();
   }
