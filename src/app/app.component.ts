@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import {SolutionService} from './services/solution.service';
 import {Solution, GoogleObj} from './models/solution';
 import {GoogletranslateService} from './services/googletranslate.service';
@@ -14,6 +14,13 @@ declare const annyang: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @ViewChild('audioOption') audioPlayerRef: ElementRef;
+
+  onAudioPlay(){
+    this.audioPlayerRef.nativeElement.play();
+  }
+
+
 	voiceActiveSectionDisabled: boolean = true;
 	voiceActiveSectionError: boolean = false;
 	voiceActiveSectionSuccess: boolean = false;
@@ -59,29 +66,29 @@ onCheckScore(a, b){
       this.recordAudio.voiceActiveSectionDisabledChanged.subscribe(
         (change: boolean) => this.voiceActiveSectionDisabled = change
       );
-      
+
       this.recordAudio.voiceActiveSectionSuccessChanged.subscribe(
         (change: boolean) => this.voiceActiveSectionSuccess = change
       );
-      
+
       this.recordAudio.voiceActiveSectionErrorChanged.subscribe(
         (change: boolean) => this.voiceActiveSectionError = change
       );
-      
+
       this.recordAudio.voiceActiveSectionListeningChanged.subscribe(
         (change: boolean) => this.voiceActiveSectionListening = change
       );
-  
+
       this.recordAudio.voiceTextChanged.subscribe(
         (change: any) => this.voiceText = change
       );
-  
+
       this.voiceActiveSectionDisabled = this.recordAudio.voiceActiveSectionDisabled;
       this.voiceActiveSectionError = this.recordAudio.voiceActiveSectionError;
       this.voiceActiveSectionSuccess = this.recordAudio.voiceActiveSectionSuccess;
       this.voiceActiveSectionListening = this.voiceActiveSectionListening;
       this.voiceText = this.recordAudio.voiceText;
-    
+
   }
 
    send() {
@@ -108,6 +115,15 @@ onCheckScore(a, b){
       }
     );
   }
+
+  playAudio(){
+    let audio = new Audio();
+    audio.src = "../assets/soundFile/Me llamo Benjamin Brown.mp3";
+    // C:\Users\syabutan\Documents\GitHub\SpeakToEmbark\src\assets\soundFile\Me llamo Benjamin Brown.mp3
+    audio.load();
+    audio.play();
+  }
+  // this.playAudio();
 
 
 }

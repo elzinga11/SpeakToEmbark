@@ -1,4 +1,4 @@
-<label for="langTo">Choose Language To Translate Into: </label> 
+<label for="langTo">Choose Language To Translate Into: </label>
 <select id="langTo" [formControl]="langTo">
   <option value="en" selected>English</option>
   <option value="es">Spanish</option>
@@ -7,7 +7,7 @@
   <option value="ja">Japanese</option>
 </select>
 
-<label for="langFrom" style ="padding-left: 15px">Choose Language To Translate From: </label> 
+<label for="langFrom" style ="padding-left: 15px">Choose Language To Translate From: </label>
 <select id="langFrom" [formControl]="langFrom">
   <option value="en" selected>English</option>
   <option value="es">Spanish</option>
@@ -55,14 +55,14 @@
 
 
 
-<hr> 
+<hr>
 <button (click) = "onCheckScore('nice to meet you, my name is Fabrizio Alegre. Where are you from?',voiceText)">Check Score</button>
 <div>nice to meet you, my name is Fabrizio Alegre. Where are you from?</div>
 <div>{{score}}</div>
 
-<hr> 
-<button (click) = "onCheckScore('hola',voiceText)">Check Score</button>
-<div>hola</div>
+<hr>
+<button (click) = "onCheckScore('私は宣教師です',voiceText)">Check Score</button>
+<div>私は宣教師です</div>
 <div>{{score}}</div>
 
 <hr>
@@ -73,6 +73,12 @@
 </div>
 
 <hr>
+
+<audio #audioOption>
+  <source src='../assets/soundFile/Me llamo Benjamin Brown.mp3' type="audio/mp3">
+</audio>
+
+<button (click)="playAudio()">Sound</button>
 
 <!-- <vg-player>
   <vg-controls>
