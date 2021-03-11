@@ -33,7 +33,7 @@ export class CheckSentence{
         correctSentence = correctSentence.toLowerCase();
         userSentence = userSentence.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
         correctSentence = correctSentence.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        
+
           for (let character of correctSentence){
             lastCharacter +=1; 
             if(character !== ' '){

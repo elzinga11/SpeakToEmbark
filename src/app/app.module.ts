@@ -4,16 +4,22 @@ import{HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { RoleplayComponent } from './roleplay/paragraph.component';
+import { PlayvideotestComponent } from './playvideotest/playvideotest.component';
+import {VgCoreModule} from 'videogular2/compiled/core';
+import {VgControlsModule} from 'videogular2/compiled/controls';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RoleplayComponent
+    RoleplayComponent,
+    PlayvideotestComponent
   ],
   imports: [
     ReactiveFormsModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    VgCoreModule,
+    VgControlsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
