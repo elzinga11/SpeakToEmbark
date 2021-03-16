@@ -3,6 +3,7 @@ import {CheckSentence} from '../services/checksentence.service';
 import {NgZone} from '@angular/core';
 import { Injectable } from '@angular/core';
 import {FormControl} from '@angular/forms'
+import {Observable} from 'rxjs';
 
 declare const annyang: any;
 
@@ -17,6 +18,7 @@ export class RecordAudio{
 	voiceActiveSectionListening: boolean = false;
 	voiceText: any;
     voiceTextReady: boolean = false;
+    public voiceTextReadyObs = new Observable<boolean>();
     language: string = 'en';
 
     voiceActiveSectionDisabledChanged = new EventEmitter<boolean>();
@@ -68,7 +70,8 @@ export class RecordAudio{
       this.voiceText = queryText;
       this.voiceTextChanged.emit(this.voiceText);
       this.voiceTextReady = true;
-
+    //   this.voiceTextReadyObs = true;
+      this.voiceTextReadyChanged.emit(this.voiceTextReady);
 
 	  this.ngZone.run(() => this.voiceActiveSectionListening = false, this.voiceActiveSectionListeningChanged.emit(this.voiceActiveSectionListening));
       this.ngZone.run(() => this.voiceActiveSectionSuccess = true, this.voiceActiveSectionSuccessChanged.emit(this.voiceActiveSectionSuccess));

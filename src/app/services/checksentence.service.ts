@@ -47,7 +47,6 @@ export class CheckSentence{
                 this.checkHowClose(newWordCorrect, userSentence);
                 newWordCorrect = '';
                 }
-    
               }
           if(wordCountCorrect >= this.wordCountUserTotal){
             return (this.sum/wordCountCorrect)*(wordCountCorrect * this.wordCountUserTotal)/(wordCountCorrect*wordCountCorrect);
@@ -82,7 +81,6 @@ export class CheckSentence{
            }
     this.wordCountUserTotal = Math.max(this.wordCountUserTotal, wordCountUser);
     this.sum += bestFit;
-
   }    
 }
 
