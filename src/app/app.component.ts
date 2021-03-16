@@ -98,6 +98,7 @@ onCheckScore(a, b){
     };
 
     this.translateBtn.disabled = true;
+    
 
     this.google.translate(googleObj).subscribe(
       (res: any) => {

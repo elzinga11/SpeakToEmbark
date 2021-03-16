@@ -3,23 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import{HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import { RoleplayComponent } from './roleplay/paragraph.component';
+import { ParagraphComponent } from './paragraph/paragraph.component';
+import { AppRoutingModule } from './app-routing.module';
 // import { PlayvideotestComponent } from './playvideotest/playvideotest.component';
-// import {VgCoreModule} from 'videogular2/compiled/core';
-// import {VgControlsModule} from 'videogular2/compiled/controls';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RoleplayComponent,
-    // PlayvideotestComponent
+    ParagraphComponent,
   ],
   imports: [
     ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
-    // VgCoreModule,
-    // VgControlsModule
+    AppRoutingModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
